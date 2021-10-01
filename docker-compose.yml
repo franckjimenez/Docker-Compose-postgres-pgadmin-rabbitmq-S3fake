@@ -1,0 +1,58 @@
+# Specify the version for docker-compose.yml
+version: "3.8"
+
+# add the serivces needed (postgres,go)
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_postgres
+      # Optional: Give a name to the database, otherwise
+      # use the default value POSTGRES_USER as a database name (user in this case.)
+      # POSTGRES_DB: testdb
+    ports:
+      - '5432:5432'
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '8060:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on: 
+      - postgres
+
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq3
+      RABBITMQ_DEFAULT_PASS: rabbitmq3
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+
+  fakes3:
+    image: olalond3/fakes3
+    ports:
+      - "4567:4567"
+    volumes:
+      - fake3-data:/fakes3/data
+
+volumes:
+  dbdata: # create the volume for persisting data.
+  pgadmin-data:
+  fake3-data:
