@@ -1,5 +1,5 @@
-# Docker Compose postgres pgadmin rabbitmq S3fake
- Config - Docker Compose postgres pgadmin rabbitmq S3fake
+# Docker Compose postgres pgadmin rabbitmq S3fake redis
+ Config - Docker Compose postgres pgadmin rabbitmq S3fake redis
 
 This file is used to configure a fast environment with docker compose.
 
@@ -8,7 +8,7 @@ This file is used to configure a fast environment with docker compose.
 - Pgadmin
 - RabitMQ3  (added a persistence)
 - S3 Fake (added a persistence)
-
+- Redis 5 (added a persistence)
 ## Run
 
 - To run Docker compose
